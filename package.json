@@ -1,0 +1,23 @@
+{
+  "name": "playground-todolist",
+  "version": "1.0.0",
+  "description": "Este es un playground de prueba para los chicos del cohort 3",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fernandobiaus/playground-backend.git"
+  },
+  "author": "Fernando Biaus",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fernandobiaus/playground-backend/issues"
+  },
+  "homepage": "https://github.com/fernandobiaus/playground-backend#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
