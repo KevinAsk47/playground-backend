@@ -1,0 +1,48 @@
+html * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Merriweather', serif;
+}
+
+div.contenedor {
+    width: 90%;
+    margin: 3vh auto;
+    background-color: lightblue;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+div.contenedor div.contenido {
+    background-color: lightpink;
+    flex: 1;
+    padding: 2vh 5vw;
+}
+
+header, footer {
+    width: 100%;
+    background-color: red;
+    color: white;
+}
+
+footer {
+    background-color: blue;
+}
+
+div.contenedorTarea {
+    display: flex;
+    width: 90%;
+    border: 1px solid black;
+    padding: 2vh 5vw;
+    justify-content: space-between;
+}
+
+.terminada {
+    color: yellow;
+    text-decoration: line-through;
+}
