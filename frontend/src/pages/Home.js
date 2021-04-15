@@ -16,24 +16,30 @@ class Home extends React.Component {
 
     borrarTarea = (e) => {
         const idABorrar = parseInt(e.target.dataset.numero)
-        axios.delete('http://localhost:4000/api/borrarTarea/'+idABorrar)
+        axios.delete('http://localhost:4000/api/tarea/'+idABorrar)
         .then(response => this.setState({tareas: response.data.respuesta}))
     }
 
     modificarTarea = (e) => {
         const idADarPorHecho = parseInt(e.target.dataset.numero)
-        axios.put('http://localhost:4000/api/modificarTarea/'+idADarPorHecho, {
+        axios.put('http://localhost:4000/api/tarea/'+idADarPorHecho, {
             terminada: true
         })
         .then(response => this.setState({tareas: response.data.respuesta}))
     }
 
     cargarNuevaTarea = (e) => {
-        axios.post('http://localhost:4000/api/agregarTarea', {
+            axios.post('http://localhost:4000/api/tareas', {
             nombre: this.state.textoInput
-        })
-        .then(response => this.setState({tareas: response.data.respuesta,
-        textoInput: ''}))
+            })
+            .then(response => {
+                if (response.data.success) {
+                    this.setState({tareas: response.data.respuesta,
+                        textoInput: ''})
+                } else {
+                    alert(response.data.error)
+                }
+            })
     }
 
     leerInput = (e) => {
