@@ -7,28 +7,26 @@ const tareasControllers = {
     },
 
     cargarNuevaTarea: async (req,res) => {
-            const {nombre} = req.body
-            const tareaAGrabar = new Tarea({nombre: nombre})
-            await tareaAGrabar.save()
-            const todasTareas = await Tarea.find()
-            res.json({success: true, respuesta: todasTareas})            
+        const {nombre} = req.body
+        const tareaAGrabar = new Tarea({nombre: nombre})
+        await tareaAGrabar.save()
+        res.json({success: true, respuesta: tareaAGrabar})            
     },
 
-    borrarTarea: (req, res) => {
-        const id = parseInt(req.params.id)
-        info = info.filter(tarea => tarea.id !== id)
-        res.json({respuesta: info})
+    borrarTarea: async (req, res) => {
+        const id = req.params.id
+        try {
+            const tareaBorrada = await Tarea.findOneAndDelete({_id: id})
+            res.json({success: true, respuesta: tareaBorrada}) 
+        } catch(error) {
+            res.json({success: false, respuesta: 'Ha ocurrido un error'})
+        }
     },
 
-    actualizarTarea: (req, res) => {
-        const id = parseInt(req.params.id)
-        info = info.map(tarea => {
-            if (tarea.id === id) {
-               tarea = {...tarea, ...req.body}
-            }
-            return tarea
-        })
-        res.json({respuesta: info})
+    actualizarTarea: async (req, res) => {
+        const id = req.params.id
+        const tareaModificada = await Tarea.findOneAndUpdate({_id: id}, {...req.body}, {new: true})
+        res.json({success: true, respuesta: tareaModificada})
     }
 }
 

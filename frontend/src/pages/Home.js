@@ -1,31 +1,51 @@
 import React from 'react'
 import Tarea from '../components/Tarea';
 import axios from 'axios'
+import { Redirect } from 'react-router';
 
 class Home extends React.Component {
     state = {
         tareas: [],
         loading: true,
-        textoInput: ''
+        textoInput: '',
+        error: false
     }
 
     componentDidMount() {
         axios.get('http://localhost:4000/api/tareas')
         .then(response => this.setState({tareas: response.data.respuesta, loading: false}))
+        .catch(error => this.props.history.push('/error'))
     }
 
     borrarTarea = (e) => {
-        const idABorrar = parseInt(e.target.dataset.numero)
+        const idABorrar = e.target.dataset.numero
         axios.delete('http://localhost:4000/api/tarea/'+idABorrar)
-        .then(response => this.setState({tareas: response.data.respuesta}))
+        .then(response => {
+            if (response.data.success) {
+                this.setState({
+                    tareas: this.state.tareas.filter(tarea => tarea._id !== response.data.respuesta._id)
+                })
+            } else {
+                alert(response.data.respuesta)
+            }
+        })
     }
 
     modificarTarea = (e) => {
-        const idADarPorHecho = parseInt(e.target.dataset.numero)
+        const idADarPorHecho = e.target.dataset.numero
         axios.put('http://localhost:4000/api/tarea/'+idADarPorHecho, {
             terminada: true
         })
-        .then(response => this.setState({tareas: response.data.respuesta}))
+        .then(response => {
+            this.setState({
+                tareas: this.state.tareas.map(tarea => {
+                    if (tarea._id === response.data.respuesta._id) {
+                       tarea = response.data.respuesta
+                    } 
+                    return tarea
+                })
+            })
+        })
     }
 
     cargarNuevaTarea = (e) => {
@@ -34,7 +54,8 @@ class Home extends React.Component {
             })
             .then(response => {
                 if (response.data.success) {
-                    this.setState({tareas: response.data.respuesta,
+                    this.setState({
+                        tareas: [...this.state.tareas, response.data.respuesta],
                         textoInput: ''})
                 } else {
                     alert(response.data.error)
@@ -47,7 +68,8 @@ class Home extends React.Component {
         this.setState({textoInput: valor})
     }
 
-    render() {        
+    render() {    
+        
         return (    
             <div className="contenido">
                 <input placeholder="Ingresar una nueva tarea..." 
@@ -58,7 +80,7 @@ class Home extends React.Component {
                 : this.state.tareas.length === 0
                 ? <h2>No hay tareas todavía</h2>
                 : this.state.tareas.map(tarea => {
-                    return <Tarea key={tarea.id} tarea={tarea} borrarTarea={this.borrarTarea} 
+                    return <Tarea key={tarea._id} tarea={tarea} borrarTarea={this.borrarTarea} 
                     modificarTarea={this.modificarTarea} />
                 })}
             </div>

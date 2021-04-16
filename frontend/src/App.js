@@ -4,6 +4,7 @@ import {BrowserRouter, Switch, Route, Redirect} from 'react-router-dom'
 import Home from './pages/Home'
 import Header from './components/Header'
 import Footer from './components/Footer'
+import Error from './components/Error'
 
 class App extends React.Component {
     render() {
@@ -12,7 +13,8 @@ class App extends React.Component {
           <div className="contenedor">
             <Header />
             <Switch>
-              <Route path="/" component={Home} />
+              <Route exact path="/" component={Home} />
+              <Route path="/error" component={Error} />
               <Redirect to="/" />
             </Switch>
             <Footer />
