@@ -1,11 +1,13 @@
-{
+{       
   "name": "playground-todolist",
   "version": "1.0.0",
   "description": "Este es un playground de prueba para los chicos del cohort 3",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js"
+    "start": "concurrently 'npm run back' 'npm run front'",
+    "back": "nodemon server.js",
+    "front": "cd frontend && npm start"
   },
   "repository": {
     "type": "git",
@@ -18,6 +20,7 @@
   },
   "homepage": "https://github.com/fernandobiaus/playground-backend#readme",
   "dependencies": {
+    "concurrently": "^6.0.2",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
